@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexer Cafe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-amber-50 scroll-smooth"
+style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+  <header class="bg-white/40">
+    <nav class="max-w-7xl mx-auto flex flex-wrap items-center justify-between px-6 py-4"   >
+      <div class="text-2xl font-bold text-amber-900" style="font-family: monospace;">Lexer Café.</div>
+
+      <input type="checkbox" id="menu-toggle" class="peer hidden" />
+
+      <label for="menu-toggle" class="cursor-pointer md:hidden text-2xl text-gray-700">
+        &#9776;
+      </label>
+
+      <ul
+        class="w-full md:w-auto 
+               flex-col md:flex-row 
+               md:flex hidden peer-checked:flex
+               items-start md:items-center 
+               gap-4 md:gap-8 
+               font-medium
+               mt-4 md:mt-0 text-amber-500">
+        <li><a href="#home" class="hover:text-amber-800">Home</a></li>
+        <li><a href="#about" class="hover:text-amber-800">About</a></li>
+        <li><a href="#" class="hover:text-amber-800">Projects</a></li>
+        <li><a href="#" class="hover:text-amber-800">Blog</a></li>
+        <li><a href="#" class="hover:text-amber-800">Pricing</a></li>
+        <li><a href="contact1.html" class="hover:text-amber-600">Contact</a></li>
+        <li>
+          <button class="border border-amber-500 text-amber-600 px-4 py-2 rounded-lg hover:bg-amber-50" id="messageBtn">
+            Message
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="popup"
+       class="fixed inset-0 bg-black/50 hidden justify-center items-center z-50">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-11/12 relative shadow-xl">
+      <button id="closePopup"
+              class="absolute top-2 right-3 text-2xl text-gray-600 hover:text-gray-900">
+        &times;
+      </button>
+      <div class="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5">
+        <img class="size-12 shrink-0"
+             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAABcCAMAAADUMSJqAAAAYFBMVEX///8AAAB8fHzc3NzW1tYsLCzm5ubj4+O2traUlJQxMTEWFhaDg4P19fU7OztgYGAbGxvNzc3s7OxYWFjBwcGNjY10dHQRERFSUlImJiakpKRFRUWrq6ucnJwhISFra2vzimdwAAADaElEQVRoge2Y6ZKzKhCGFXGNGPe4RHP/d/l1YxZwia0Zq86p8v01E+Wxgd7AME6dOnXq/y8r8a9Rf1lTbFfM4+kmtMdsk65b1jlUsvAG8q0O1lVfhg8UgrYgV3y5Zk3O3VVZPL8XLQ4I7gR2HiD67tAskUqTShq/+mKHRjR08FNJBuOylY29wzsV38yGjSpg5OPrdD18Ywf6NZZ9oVvwvNzJhlnfTLNbfgx+0m7YyLF8sG1x2XHB59gCPI4gywGnyRbYKTyb8ZPcfwS0SK3B4W/JPDwHRxnPSjTtbUMiALXuLLydGC68Wg6wqzJcFXs87Qjn8DAn3XAhE4HJEouU9oRjeUMmyCfPvPFuJGh2+8W55uSwfi6NFSMvzZFdkHPpxybMBGz0Y2maatwnYEHvbUaDBAO6r/901SLAjYBt7WEbchF030gzDQ6fiqf7QlUIdNVnIIQUZ8Fg/ayJldkkBe8hsMaVAheq5WmkZTCfGkHvIEzhH7U0PRQ4Gq6skUeFh+rUM8UfYY9fiyzakVsKhyTFHkxUSprxPx/mEPF7ypEqXys7QAyef4a/1IynHEg0yr/mO4qi2dy7UZEWlOW7O4j1YN0npvmLC3EjmVyf0U55qvMYonzuAVQNHZ42Pk1qvuB6+uL9EJbwzViDd1Q/v6rZaeQVAOkTabkOb6hwtSsawzF4Ane6LCLxSMrVipWMs7qDZYq7l7/Y0GbSmlrA7bs/ccVST12SHg2rt7F0zgianUmxSdmw77+y+XjjBmG+NeOFzoksf6lf9m19M4RF1McTsQYvlGA0XqmB5GLx6c/95aOAqLRVL6hwrcwt9iWJ5jBOwUgKXxuF0fjlhAJeGu9qiaSYvqxjYRtj7m1cHmtjLWgVL7tCyUH2ypGXx5jmtt0ZoOQp2V97y5XtebipYUxzPExTGljZrpp12RCzWJoXuFNmRHt/ONSbt9iORiHRRWMF/XBqCRryadNj7wBRfQsr4nwY0a9eUK73GEiRMiyJ58htt/HSaJC84Ll8MiXAM8vRrl72YF/CZqZ+ewHArz8c5CeyKiU2/ho+ZAT/ILiRYlQVB8GHxC4d/gi4PKYh9RC4bBsz9yC4vGyKOD8GbnhIh/7gEPgrrxwDN3h7IHxoho+Cy7P89+vPX5Qye/+dxqlTp079x/UPNPsw8ljPlE0AAAAASUVORK5CYII=" alt="ChitChat Logo" />
+        <div>
+          <div class="text-xl font-medium text-black">ChitChat</div>
+          <p class="text-gray-500">You have a new message!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<section id="home" class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1500&q=80');">
+  <div class="bg-black/40 p-10 rounded-xl text-center text-white">
+    <h1 class="text-5xl md:text-6xl font-bold mb-4">Sip. Study. Socialize.</h1>
+    <p class="mb-6 text-lg md:text-xl">Specialty coffee & fresh pastries in one cozy,work-friendly space.</p>
+    <a href="#menu" class="bg-amber-600 hover:bg-amber-500 text-white px-6 py-3 rounded-lg text-lg"> View Menu</a>
+  </div>
+</section>
+
+<section class="max-w-5xl mx-auto py-16 grid md:grid-cols-3 gap-10 text-center" id="special">
+  <div>
+    <div class="text-4xl mb-2">☕</div>
+    <h3 class="text-xl font-semibold">Specialty Coffee</h3>
+  </div>
+  <div>
+    <div class="text-4xl mb-2">🥐</div>
+    <h3 class="text-xl font-semibold">Fresh Pastries</h3>
+  </div>
+  <div>
+    <div class="text-4xl mb-2">📶</div>
+    <h3 class="text-xl font-semibold">Free Wi-Fi and Workspace</h3>
+  </div>
+</section>
+
+<section id="menu" class="bg-amber-100 py-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-8 text-amber-900">Menu</h2>
+      <div class="grid md:grid-cols-3 gap-8 text-left">
+      <div>
+        <h3 class="font-semibold text-amber-800 mb-2">Espresso Bar</h3>
+        <ul>
+          <li>Americano- $3</li>
+          <li>Latte- $3.95</li>
+          <li>Cappuccino- $4</li>
+          <li>Espresso- $2.5</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold text-amber-800 mb-2">Teas and Refreshers</h3>
+        <ul>
+          <li>Chai Latte- $3</li>
+          <li>Matcha Tea- $4.5</li>
+          <li>Iced Tea- $5</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold text-amber-800 mb-2">Seasonal Specials</h3>
+        <ul>
+          <li>Pumpkin Spice Latte- $4.5</li>
+          <li>Gingerbread Latte- $5</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-5xl mx-auto py-16 px-6 grid md:grid-cols-2 gap-10 items-center">
+   <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Cafe Interior" class="rounded-xl shadow-md" id="about">
+   <div>
+    <h2 class="text-3xl font-bold mb-4 text-amber-900 ">About Us</h2>
+    <p class="text-lg text-amber-800">
+       At Lexer Café we believe in the power of words and the comfort of a great cup of coffee.
+        Named after the concept of “lexing,” our café is a place where books meet the brew.
+    </p>
+   </div>
+</section>
+
+<section class="bg-amber-100 py-16 px-6 text-center ">
+  <h2 class="text-3xl font-bold md-4 text-amber-900">Events</h2>
+  <p class="text-lg text-amber-800">Open Mic Night - Every Wednesday at 7PM</p>
+</section>
+<section class="max-w-5xl mx-auto py-16 px-6">
+  <div class="grid md:grid-cols-3 gap-4">
+   <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=600&q=80" class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" class="rounded-lg">
+    </div>
+</section>
+
+<section class="bg-amber-100 py-16 px-6 text-center">
+  <h2 class="text-3xl font-bold mb-4 text-amber-900">Visit Us</h2>
+  <p class="mb-4 text-amber-800">123 Brew Street, Califonia</p>
+  <p class="mb-4 text-amber-800">Open Daily: 8 AM - 8PM</p>
+</section>
+<footer class="bg-amber-900 text-amber-100 text-center py-6"> © 2025 Lexer Café. All rights reserved.</footer>
+  <script>
+    const messageBtn = document.getElementById('messageBtn');
+    const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('closePopup');
+
+    messageBtn.addEventListener('click', () => {
+      popup.classList.remove('hidden');
+      popup.classList.add('flex');
+    });
+
+    closePopup.addEventListener('click', () => {
+      popup.classList.add('hidden');
+      popup.classList.remove('flex');
+    });
+
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.classList.add('hidden');
+        popup.classList.remove('flex');
+      }
+    });
+  </script>
+</body>
+</html>
